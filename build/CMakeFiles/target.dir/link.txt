@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/target.dir/3rd/tinyxml2.cpp.o CMakeFiles/target.dir/src/AABB.cpp.o CMakeFiles/target.dir/src/camera.cpp.o CMakeFiles/target.dir/src/main.cpp.o CMakeFiles/target.dir/src/scene.cpp.o  -o target  /usr/local/lib/libtinyobjloader.a 

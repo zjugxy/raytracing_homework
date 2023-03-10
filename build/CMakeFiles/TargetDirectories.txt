@@ -1,0 +1,3 @@
+/home/gxy/homework/raytracing/build/CMakeFiles/rebuild_cache.dir
+/home/gxy/homework/raytracing/build/CMakeFiles/edit_cache.dir
+/home/gxy/homework/raytracing/build/CMakeFiles/target.dir
