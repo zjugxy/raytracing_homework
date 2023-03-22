@@ -1,9 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/target.dir/3rd/tinyxml2.cpp.o"
   "CMakeFiles/target.dir/src/AABB.cpp.o"
+  "CMakeFiles/target.dir/src/BVHNode.cpp.o"
+  "CMakeFiles/target.dir/src/Triangle.cpp.o"
   "CMakeFiles/target.dir/src/camera.cpp.o"
   "CMakeFiles/target.dir/src/main.cpp.o"
+  "CMakeFiles/target.dir/src/mymath.cpp.o"
   "CMakeFiles/target.dir/src/scene.cpp.o"
+  "CMakeFiles/target.dir/src/tinyxml2.cpp.o"
   "target"
   "target.pdb"
 )

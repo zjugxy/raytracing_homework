@@ -123,33 +123,6 @@ target/fast:
 	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/build
 .PHONY : target/fast
 
-3rd/tinyxml2.o: 3rd/tinyxml2.cpp.o
-
-.PHONY : 3rd/tinyxml2.o
-
-# target to build an object file
-3rd/tinyxml2.cpp.o:
-	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/3rd/tinyxml2.cpp.o
-.PHONY : 3rd/tinyxml2.cpp.o
-
-3rd/tinyxml2.i: 3rd/tinyxml2.cpp.i
-
-.PHONY : 3rd/tinyxml2.i
-
-# target to preprocess a source file
-3rd/tinyxml2.cpp.i:
-	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/3rd/tinyxml2.cpp.i
-.PHONY : 3rd/tinyxml2.cpp.i
-
-3rd/tinyxml2.s: 3rd/tinyxml2.cpp.s
-
-.PHONY : 3rd/tinyxml2.s
-
-# target to generate assembly for a file
-3rd/tinyxml2.cpp.s:
-	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/3rd/tinyxml2.cpp.s
-.PHONY : 3rd/tinyxml2.cpp.s
-
 src/AABB.o: src/AABB.cpp.o
 
 .PHONY : src/AABB.o
@@ -176,6 +149,60 @@ src/AABB.s: src/AABB.cpp.s
 src/AABB.cpp.s:
 	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/AABB.cpp.s
 .PHONY : src/AABB.cpp.s
+
+src/BVHNode.o: src/BVHNode.cpp.o
+
+.PHONY : src/BVHNode.o
+
+# target to build an object file
+src/BVHNode.cpp.o:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/BVHNode.cpp.o
+.PHONY : src/BVHNode.cpp.o
+
+src/BVHNode.i: src/BVHNode.cpp.i
+
+.PHONY : src/BVHNode.i
+
+# target to preprocess a source file
+src/BVHNode.cpp.i:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/BVHNode.cpp.i
+.PHONY : src/BVHNode.cpp.i
+
+src/BVHNode.s: src/BVHNode.cpp.s
+
+.PHONY : src/BVHNode.s
+
+# target to generate assembly for a file
+src/BVHNode.cpp.s:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/BVHNode.cpp.s
+.PHONY : src/BVHNode.cpp.s
+
+src/Triangle.o: src/Triangle.cpp.o
+
+.PHONY : src/Triangle.o
+
+# target to build an object file
+src/Triangle.cpp.o:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Triangle.cpp.o
+.PHONY : src/Triangle.cpp.o
+
+src/Triangle.i: src/Triangle.cpp.i
+
+.PHONY : src/Triangle.i
+
+# target to preprocess a source file
+src/Triangle.cpp.i:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Triangle.cpp.i
+.PHONY : src/Triangle.cpp.i
+
+src/Triangle.s: src/Triangle.cpp.s
+
+.PHONY : src/Triangle.s
+
+# target to generate assembly for a file
+src/Triangle.cpp.s:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Triangle.cpp.s
+.PHONY : src/Triangle.cpp.s
 
 src/camera.o: src/camera.cpp.o
 
@@ -231,6 +258,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/mymath.o: src/mymath.cpp.o
+
+.PHONY : src/mymath.o
+
+# target to build an object file
+src/mymath.cpp.o:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/mymath.cpp.o
+.PHONY : src/mymath.cpp.o
+
+src/mymath.i: src/mymath.cpp.i
+
+.PHONY : src/mymath.i
+
+# target to preprocess a source file
+src/mymath.cpp.i:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/mymath.cpp.i
+.PHONY : src/mymath.cpp.i
+
+src/mymath.s: src/mymath.cpp.s
+
+.PHONY : src/mymath.s
+
+# target to generate assembly for a file
+src/mymath.cpp.s:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/mymath.cpp.s
+.PHONY : src/mymath.cpp.s
+
 src/scene.o: src/scene.cpp.o
 
 .PHONY : src/scene.o
@@ -258,6 +312,33 @@ src/scene.cpp.s:
 	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/scene.cpp.s
 .PHONY : src/scene.cpp.s
 
+src/tinyxml2.o: src/tinyxml2.cpp.o
+
+.PHONY : src/tinyxml2.o
+
+# target to build an object file
+src/tinyxml2.cpp.o:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/tinyxml2.cpp.o
+.PHONY : src/tinyxml2.cpp.o
+
+src/tinyxml2.i: src/tinyxml2.cpp.i
+
+.PHONY : src/tinyxml2.i
+
+# target to preprocess a source file
+src/tinyxml2.cpp.i:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/tinyxml2.cpp.i
+.PHONY : src/tinyxml2.cpp.i
+
+src/tinyxml2.s: src/tinyxml2.cpp.s
+
+.PHONY : src/tinyxml2.s
+
+# target to generate assembly for a file
+src/tinyxml2.cpp.s:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/tinyxml2.cpp.s
+.PHONY : src/tinyxml2.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -267,21 +348,30 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... target"
-	@echo "... 3rd/tinyxml2.o"
-	@echo "... 3rd/tinyxml2.i"
-	@echo "... 3rd/tinyxml2.s"
 	@echo "... src/AABB.o"
 	@echo "... src/AABB.i"
 	@echo "... src/AABB.s"
+	@echo "... src/BVHNode.o"
+	@echo "... src/BVHNode.i"
+	@echo "... src/BVHNode.s"
+	@echo "... src/Triangle.o"
+	@echo "... src/Triangle.i"
+	@echo "... src/Triangle.s"
 	@echo "... src/camera.o"
 	@echo "... src/camera.i"
 	@echo "... src/camera.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/mymath.o"
+	@echo "... src/mymath.i"
+	@echo "... src/mymath.s"
 	@echo "... src/scene.o"
 	@echo "... src/scene.i"
 	@echo "... src/scene.s"
+	@echo "... src/tinyxml2.o"
+	@echo "... src/tinyxml2.i"
+	@echo "... src/tinyxml2.s"
 .PHONY : help
 
 

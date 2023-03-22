@@ -4,11 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/gxy/homework/raytracing/3rd/tinyxml2.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/3rd/tinyxml2.cpp.o"
   "/home/gxy/homework/raytracing/src/AABB.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/AABB.cpp.o"
+  "/home/gxy/homework/raytracing/src/BVHNode.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/BVHNode.cpp.o"
+  "/home/gxy/homework/raytracing/src/Triangle.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/Triangle.cpp.o"
   "/home/gxy/homework/raytracing/src/camera.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/camera.cpp.o"
   "/home/gxy/homework/raytracing/src/main.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/main.cpp.o"
+  "/home/gxy/homework/raytracing/src/mymath.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/mymath.cpp.o"
   "/home/gxy/homework/raytracing/src/scene.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/scene.cpp.o"
+  "/home/gxy/homework/raytracing/src/tinyxml2.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/tinyxml2.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
