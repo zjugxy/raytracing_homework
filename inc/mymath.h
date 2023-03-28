@@ -12,3 +12,4 @@ float random_float();
 bool judge_equal(float elems[],float cmp);
 float clamp(float value,float min,float max);
 vec3 sample_tri();
+inline double random_double();

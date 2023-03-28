@@ -41,8 +41,8 @@
     if (t <= t_min || t >= t_max) {
         return false;
     }
-
-    if (t < rec.t) {
+//重合面？
+    if (t+0.001 < rec.t) {
         rec.t = t;
         rec.position = ray.at(t);
         rec.normal = glm::normalize(float((1 - u - v)) * normals[0] + float(u) * normals[1] + float(v) * normals[2]);
@@ -56,7 +56,7 @@
 
     bool Triangle::calculate_fromuv(const vec3& coord,vec3& position,vec3& normal)const{
         float x=coord[0],y = coord[1],z=coord[2];
-        if(x<0||y<0||z<0||(x+y+z)>1)
+        if(x<0||y<0||z<0||(x+y+z)>1.001)
             return false;
         position = vertices[0]*x+vertices[1]*y+vertices[2]*z;
         normal = normals[0]*x+normals[1]*y+normals[2]*z;

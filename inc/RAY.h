@@ -7,7 +7,7 @@ class Ray {
     public:
         Ray() {}
         Ray(const vec3& origin, const vec3& direction)
-            : orig(origin), dir(direction)
+            : orig(origin), dir(glm::normalize(direction))
         {}
         vec3 origin() const  { return orig; }
         vec3 direction() const { return dir; }

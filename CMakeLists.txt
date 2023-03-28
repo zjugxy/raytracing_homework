@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(raytrace)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+find_package(OpenMp)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(target PUBLIC OpenMP::OpenMP_CXX)
+endif()
 
 file(GLOB src_list "src/*.cpp")
 find_library(TINYOBJ_LIB tinyobjloader PATHS /usr/local/lib/)
