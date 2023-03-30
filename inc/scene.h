@@ -12,7 +12,7 @@
 #include<Material.h>
 #include<memory>
 #include<Light.h>
-
+#include<unordered_map>
 
 class Scene
 {
@@ -25,7 +25,8 @@ public:
     std::map<int, vec3> radiance;
     std::vector<Triangle> triangles;
     std::vector<std::shared_ptr<myMaterial>> mymaterials;
-    std::vector<Light> lightsources;
+    std::vector<Light> lights;
+    std::unordered_map<int,LightSource> Lightsources;//mtlid -> lightsource
     BVHNode *root;
 
     Camera camera;
@@ -36,6 +37,7 @@ public:
     bool loadxml(const char *filename);
     Scene() = default;
     void buildBVH();
+    void InitLightSources();
 
     bool intersect(const Ray& ray,const float tmin,const float tmax,hitrecord& rec);
 };

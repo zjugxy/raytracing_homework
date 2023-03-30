@@ -48,8 +48,16 @@ bool Scene::loadobj(const char *filename, const char *basefile, bool triangulate
             auto ptr = std::make_shared<Diffuse>(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]);
             mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
         }
-        else
+        else if(judge_equal(mat.transmittance, 0.0))
         {
+            auto ptr = std::make_shared<Specular>(
+                vec3(mat.diffuse[0],mat.diffuse[1],mat.diffuse[2]),
+                vec3(mat.specular[0],mat.specular[1],mat.specular[2]),
+                mat.shininess
+            );
+            mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
+        }
+        else{
             std::cout << "not diffuse mat occured" << std::endl;
             std::cout << mat.name;
         }
@@ -172,7 +180,7 @@ void Scene::buildBVH()
             
             //if is light,add to lightsource
             if(is_light[triangle.mtlindex]){
-                lightsources.push_back(Light(triangle,radiance[triangle.mtlindex]));
+                lights.push_back(Light(triangle,radiance[triangle.mtlindex]));
             }
             index_offset += fv;
         }
@@ -182,6 +190,19 @@ void Scene::buildBVH()
 }
 bool Scene::intersect(const Ray &ray, const float tmin, const float tmax, hitrecord &rec)
 {
-
     return root->intersect(ray, tmin, tmax, rec);
+}
+
+void Scene::InitLightSources(){
+    int light_id = 0;
+    for(auto& light:lights){
+        int id = light.tri.mtlindex;
+        Lightsources[id].totalarea+=light.area;
+        Lightsources[id].lightsid.push_back(light_id);
+        ++light_id;
+        if(Lightsources[id].areavec.empty())
+            Lightsources[id].areavec.push_back(light.area);
+        else
+            Lightsources[id].areavec.push_back(light.area+Lightsources[id].areavec.back());
+    }
 }

@@ -61,3 +61,10 @@ vec3 sample_tri()
 
     return vec3(std::sqrt(v)*(1-u), u*std::sqrt(v), 1 - std::sqrt(v));
 }
+
+float random_in_range(float minfloat,float maxfloat){
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(minfloat, maxfloat);
+    return dis(gen);
+}
