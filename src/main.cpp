@@ -4,8 +4,9 @@
 #include <scene.h>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
+
 #include <omp.h>
-const int sample_per_pixels = 800;
+const int sample_per_pixels = 100;
 const float infinity = 99999999.0;
 const float cut_prob = 0.7;
 
@@ -153,15 +154,15 @@ vec3 newshader(Scene &scene, hitrecord rec, Ray &ray_in)
     return L_indir;
 };
 
+// 重要性采样的实现没有太大问题，但是reflectance的BRDF实现有不少问题
 vec3 multisampleshader(Scene &scene, hitrecord rec, Ray &ray_in)
 {
 
     vec3 hitposition = rec.position;
     vec3 recnorm = glm::normalize(rec.normal);
     int id = rec.materialid;
-
-    std::vector<float> pdfvec;
-    std::vector<vec3> L;
+    vec3 w_o = -1.0f * glm::normalize(ray_in.dir);
+    vec3 L(0.0f, 0.0f, 0.0f);
 
     float randelem = random_float();
     if (randelem > cut_prob)
@@ -193,8 +194,10 @@ vec3 multisampleshader(Scene &scene, hitrecord rec, Ray &ray_in)
             elem /= truelength * truelength;
 
             vec3 L_dir = light.radiance * scene.mymaterials[id]->BRDF(-1.0f * ray_in.dir, dir_out, testrec) * elem / PDF / cut_prob;
-            pdfvec.push_back(PDF);
-            L.push_back(L_dir);
+            float PDF2 = scene.mymaterials[id]->MTLPDF(dir_out, w_o, rec);
+            float weight = powerweight(PDF, PDF2);
+
+            L += L_dir * weight;
         }
         else
         {
@@ -212,106 +215,22 @@ vec3 multisampleshader(Scene &scene, hitrecord rec, Ray &ray_in)
     if (!scene.intersect(newray, 0, infinity, newrec)) // 没打中任何物体
         L_indir = vec3(0, 0, 0);
     else if (scene.is_light[newrec.materialid]) // 打中了光
+    {
         L_indir = scene.radiance[newrec.materialid] * albedo * glm::dot(recnorm, glm::normalize(newray.dir)) / pdf / cut_prob;
+        float lightsourceid = newrec.materialid;
+        float area = scene.Lightsources[lightsourceid].totalarea;
+        float PDF2 = 1 / area;
+        float weight = powerweight(pdf, PDF2);
+        L_indir *= weight;
+    }
     else
     {
         float elem = glm::dot(recnorm, glm::normalize(newray.dir)) / pdf / cut_prob;
         L_indir = newshader(scene, newrec, newray) * albedo * elem;
     }
 
-    if(L_indir!=vec3(0.0f,0.0f,0.0f)){
-        pdfvec.push_back(pdf);
-        L.push_back(L_indir);
-    }
-
-    if(L.empty())
-        return vec3(0, 0, 0);
-
-    //计算权重
-    std::vector<float> powerweights;
-    float totalweights = 0;
-    for(int i=0;i<pdfvec.size();i++){
-        float elem = pow(pdfvec[i],1);//看看效果
-        powerweights.push_back(elem);
-        totalweights+=elem;
-    }
-    vec3 L_ret(0.0f,0.0f,0.0f);
-    for(int i=0;i<powerweights.size();i++){
-        L_ret += L[i]*powerweights[i]/totalweights;
-    }
-    return L_ret;
+    return L + L_indir;
 }
-
-// vec3 multisampleshader_old(Scene &scene, hitrecord rec, Ray &ray_in)
-// {
-
-//     vec3 hitposition = rec.position;
-//     vec3 recnorm = glm::normalize(rec.normal);
-//     int id = rec.materialid;
-
-//     std::vector<vec3> L;
-
-//     float randelem = random_float();
-//     if (randelem > cut_prob)
-//         return vec3(0.0f, 0.0f, 0.0f);
-
-//     for (auto &lightsourcepair : scene.Lightsources)
-//     {
-//         int radianceid = lightsourcepair.first;
-//         auto lightsource = lightsourcepair.second;
-//         int lightid = lightsource.SampleLight();
-
-//         Light light = scene.lights[lightid];
-//         vec3 samplepoint = sample_tri();
-//         vec3 position, normal;
-//         if (!light.tri.calculate_fromuv(samplepoint, position, normal))
-//             std::cout << "error in light";
-
-//         vec3 dir_out = glm::normalize(position - hitposition);
-//         Ray testray(hitposition, dir_out);
-//         float truelength = glm::length(position - hitposition);
-//         hitrecord testrec;
-//         scene.intersect(testray, 0, infinity, testrec);
-
-//         if (std::abs(testrec.t - truelength) < 0.001)
-//         {
-//             // PDF,L_DIR
-//             float PDF = 1.0f / lightsource.totalarea;
-//             float elem = glm::dot(recnorm, dir_out) * glm::dot(-1.0f * dir_out, glm::normalize(normal));
-//             elem /= truelength * truelength;
-
-//             vec3 L_dir = light.radiance * scene.mymaterials[id]->BRDF(-1.0f * ray_in.dir, dir_out, testrec) * elem / PDF;
-//             L.push_back(L_dir);
-//         }
-//         else
-//         {
-//             continue;
-//         }
-//     }
-
-//     // trace a ray
-//     Ray newray;
-//     vec3 albedo;
-//     float pdf;
-//     vec3 L_indir;
-//     scene.mymaterials[id]->scatter(ray_in, rec, albedo, newray, pdf);
-//     hitrecord newrec;
-//     if (!scene.intersect(newray, 0, infinity, newrec)) // 没打中任何物体
-//         L_indir = vec3(0, 0, 0);
-//     else if (scene.is_light[newrec.materialid]) // 打中了光
-//         L_indir = vec3(0, 0, 0);
-//     else
-//     {
-//         float elem = glm::dot(recnorm, glm::normalize(newray.dir)) / pdf / cut_prob;
-//         L_indir = newshader(scene, newrec, newray) * albedo * elem;
-//     }
-
-//     for(auto& _L:L){
-//         L_indir+=_L;
-//     }
-//     return L_indir;
-// }
-
 
 vec3 ray_color_from_camera(Scene &scene, Ray ray)
 {
@@ -359,9 +278,15 @@ int main()
 {
     Scene myscene;
 
-    const char *filename = "../example/veach-mis/veach-mis.obj";
-    const char *basefile = "../example/veach-mis/"; // used to find mtl file
-    const char *xmlfile = "../example/veach-mis/veach-mis.xml";
+    // const char *filename = "../example/veach-mis/veach-mis.obj";
+    // const char *basefile = "../example/veach-mis/"; // used to find mtl file
+    // const char *xmlfile = "../example/veach-mis/veach-mis.xml";
+
+    const char *filename = "../example/staircase/stairscase.obj";
+    const char *basefile = "../example/staircase/"; // used to find mtl file
+    const char *xmlfile = "../example/staircase/staircase.xml";
+
+
     // load obj first to match the material with xml file
     myscene.loadobj(filename, basefile);
     myscene.loadxml(xmlfile);
@@ -381,7 +306,7 @@ int main()
     int debugx = 113;
     // 原先      for (int y = height-1; y >= 0; --y) {
 
-#pragma omp parallel for
+    #pragma omp parallel for
     for (int y = height - 1; y >= 0; --y)
     {
         std::cout << "line in" << y << std::endl;
@@ -393,9 +318,10 @@ int main()
             int index = (((height - 1) - y) * width + x) * 3;
             vec3 color{0, 0, 0};
             Ray r = myscene.camera.castray(float(x) / width, float(y) / height);
+            // std::cout<<"debug x in ************"<<x<<std::endl;
             for (int k = 0; k < sample_per_pixels; k++)
             {
-                color += ray_color_from_malti(myscene, r);
+                color += ray_color_from_camera_new(myscene, r);
             }
             color /= float(sample_per_pixels);
             float R = clamp(color[0], 0.0, 0.999) * 255;

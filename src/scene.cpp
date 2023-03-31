@@ -48,22 +48,35 @@ bool Scene::loadobj(const char *filename, const char *basefile, bool triangulate
             auto ptr = std::make_shared<Diffuse>(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]);
             mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
         }
-        else if(judge_equal(mat.transmittance, 0.0))
+        else if (judge_equal(mat.transmittance, 0.0))
         {
             auto ptr = std::make_shared<Specular>(
-                vec3(mat.diffuse[0],mat.diffuse[1],mat.diffuse[2]),
-                vec3(mat.specular[0],mat.specular[1],mat.specular[2]),
-                mat.shininess
-            );
+                vec3(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]),
+                vec3(mat.specular[0], mat.specular[1], mat.specular[2]),
+                mat.shininess);
             mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
         }
-        else{
+        else
+        {
             std::cout << "not diffuse mat occured" << std::endl;
             std::cout << mat.name;
+            auto ptr = std::make_shared<Glass>(
+                vec3(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]),
+                vec3(mat.transmittance[0], mat.transmittance[1], mat.transmittance[2]),
+                mat.ior);
+            std::cout << mat.transmittance[0] << mat.transmittance[1] << mat.transmittance[2];
+            mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
+        }
+        //加入Kd纹理
+        if (!mat.diffuse_texname.empty())
+        {
+            mymaterials[matindex]->has_Kdmap = true;
+            std::string texpath = basefile + mat.diffuse_texname;
+            std::cout << "loading " << texpath << std::endl;
+            mymaterials[matindex]->texture = new myTexture(texpath);
         }
         matindex++;
     }
-
     return true;
 }
 
@@ -145,7 +158,7 @@ void Scene::buildBVH()
 
             // Only consider triangles
             Triangle triangle;
-            if(fv!=3)
+            if (fv != 3)
                 throw std::runtime_error("not tri occur in BuildBVH");
             // Loop through each vertex in the face
             for (size_t v = 0; v < fv; v++)
@@ -177,10 +190,11 @@ void Scene::buildBVH()
             // Set material index for the triangle
             triangle.mtlindex = shapes[s].mesh.material_ids[f];
             triangles.push_back(triangle);
-            
-            //if is light,add to lightsource
-            if(is_light[triangle.mtlindex]){
-                lights.push_back(Light(triangle,radiance[triangle.mtlindex]));
+
+            // if is light,add to lightsource
+            if (is_light[triangle.mtlindex])
+            {
+                lights.push_back(Light(triangle, radiance[triangle.mtlindex]));
             }
             index_offset += fv;
         }
@@ -193,16 +207,18 @@ bool Scene::intersect(const Ray &ray, const float tmin, const float tmax, hitrec
     return root->intersect(ray, tmin, tmax, rec);
 }
 
-void Scene::InitLightSources(){
+void Scene::InitLightSources()
+{
     int light_id = 0;
-    for(auto& light:lights){
+    for (auto &light : lights)
+    {
         int id = light.tri.mtlindex;
-        Lightsources[id].totalarea+=light.area;
+        Lightsources[id].totalarea += light.area;
         Lightsources[id].lightsid.push_back(light_id);
         ++light_id;
-        if(Lightsources[id].areavec.empty())
+        if (Lightsources[id].areavec.empty())
             Lightsources[id].areavec.push_back(light.area);
         else
-            Lightsources[id].areavec.push_back(light.area+Lightsources[id].areavec.back());
+            Lightsources[id].areavec.push_back(light.area + Lightsources[id].areavec.back());
     }
 }

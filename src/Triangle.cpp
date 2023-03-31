@@ -46,6 +46,7 @@
         rec.t = t;
         rec.position = ray.at(t);
         rec.normal = glm::normalize(float((1 - u - v)) * normals[0] + float(u) * normals[1] + float(v) * normals[2]);
+        rec.texcoord = vec2(float((1 - u - v)) * texs[0] + float(u) * texs[1] + float(v) * texs[2]);
         rec.materialid = mtlindex;
     }
     else {
@@ -60,5 +61,15 @@
             return false;
         position = vertices[0]*x+vertices[1]*y+vertices[2]*z;
         normal = normals[0]*x+normals[1]*y+normals[2]*z;
+        return true;
+    };
+
+    bool Triangle::calculate_fromuv(const vec3& coord,vec3& position,vec3& normal,vec2& texcoord)const{
+        float x=coord[0],y = coord[1],z=coord[2];
+        if(x<0||y<0||z<0||(x+y+z)>1.001)
+            return false;
+        position = vertices[0]*x+vertices[1]*y+vertices[2]*z;
+        normal = normals[0]*x+normals[1]*y+normals[2]*z;
+        texcoord = texs[0]*x+texs[1]*y+texs[2]*z;
         return true;
     };

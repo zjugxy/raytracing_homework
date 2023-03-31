@@ -177,6 +177,33 @@ src/BVHNode.cpp.s:
 	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/BVHNode.cpp.s
 .PHONY : src/BVHNode.cpp.s
 
+src/Texture.o: src/Texture.cpp.o
+
+.PHONY : src/Texture.o
+
+# target to build an object file
+src/Texture.cpp.o:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Texture.cpp.o
+.PHONY : src/Texture.cpp.o
+
+src/Texture.i: src/Texture.cpp.i
+
+.PHONY : src/Texture.i
+
+# target to preprocess a source file
+src/Texture.cpp.i:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Texture.cpp.i
+.PHONY : src/Texture.cpp.i
+
+src/Texture.s: src/Texture.cpp.s
+
+.PHONY : src/Texture.s
+
+# target to generate assembly for a file
+src/Texture.cpp.s:
+	$(MAKE) -f CMakeFiles/target.dir/build.make CMakeFiles/target.dir/src/Texture.cpp.s
+.PHONY : src/Texture.cpp.s
+
 src/Triangle.o: src/Triangle.cpp.o
 
 .PHONY : src/Triangle.o
@@ -354,6 +381,9 @@ help:
 	@echo "... src/BVHNode.o"
 	@echo "... src/BVHNode.i"
 	@echo "... src/BVHNode.s"
+	@echo "... src/Texture.o"
+	@echo "... src/Texture.i"
+	@echo "... src/Texture.s"
 	@echo "... src/Triangle.o"
 	@echo "... src/Triangle.i"
 	@echo "... src/Triangle.s"

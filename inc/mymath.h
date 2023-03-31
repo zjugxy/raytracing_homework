@@ -15,3 +15,4 @@ float clamp(float value,float min,float max);
 vec3 sample_tri();
 inline double random_double();
 float random_in_range(float,float);
+float powerweight(const float& weight1,const float& weight2);

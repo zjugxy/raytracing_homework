@@ -68,3 +68,9 @@ float random_in_range(float minfloat,float maxfloat){
     std::uniform_real_distribution<> dis(minfloat, maxfloat);
     return dis(gen);
 }
+
+float powerweight(const float& weight1,const float& weight2){
+    float elem1  =  pow(weight1,2);
+    float elem2 = pow(weight2,2);
+    return elem1/(elem1+elem2);
+}

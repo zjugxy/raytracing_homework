@@ -6,22 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../3rd/stb_image_write.h
-stdlib.h
--
-stdio.h
--
-stdarg.h
--
-stdlib.h
--
-string.h
--
-math.h
--
-assert.h
--
-
 ../3rd/tinyxml2.h
 ctype.h
 -
@@ -87,9 +71,17 @@ mymath.h
 -
 hitreord.h
 -
+Texture.h
+-
 
 ../inc/RAY.h
 mymath.h
+-
+
+../inc/Texture.h
+mymath.h
+-
+string
 -
 
 ../inc/Triangle.h
@@ -150,17 +142,7 @@ Light.h
 unordered_map
 -
 
-/home/gxy/homework/raytracing/src/main.cpp
-iostream
--
-vector
--
-string
--
+/home/gxy/homework/raytracing/src/scene.cpp
 scene.h
--
-stb_image_write.h
--
-omp.h
--
+/home/gxy/homework/raytracing/src/scene.h
 

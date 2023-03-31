@@ -16,4 +16,5 @@ public:
     AABB get_bbox()const;
     Triangle() = default;
     bool calculate_fromuv(const vec3& coord,vec3& position,vec3& normal)const;
+    bool calculate_fromuv(const vec3& coord,vec3& position,vec3& normal,vec2& texcoord)const;
 };

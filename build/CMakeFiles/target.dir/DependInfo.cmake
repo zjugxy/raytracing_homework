@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/gxy/homework/raytracing/src/AABB.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/AABB.cpp.o"
   "/home/gxy/homework/raytracing/src/BVHNode.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/BVHNode.cpp.o"
+  "/home/gxy/homework/raytracing/src/Texture.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/Texture.cpp.o"
   "/home/gxy/homework/raytracing/src/Triangle.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/Triangle.cpp.o"
   "/home/gxy/homework/raytracing/src/camera.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/camera.cpp.o"
   "/home/gxy/homework/raytracing/src/main.cpp" "/home/gxy/homework/raytracing/build/CMakeFiles/target.dir/src/main.cpp.o"
