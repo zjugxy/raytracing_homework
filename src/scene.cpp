@@ -43,12 +43,12 @@ bool Scene::loadobj(const char *filename, const char *basefile, bool triangulate
     for (auto &mat : materials)
     {
         // 先处理diffuse
-        if (judge_equal(mat.specular, 0.0) && judge_equal(mat.transmittance, 0.0))
+        if (judge_equal(mat.specular, 0.0) && mat.ior==1.0)
         {
             auto ptr = std::make_shared<Diffuse>(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]);
             mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);
         }
-        else if (judge_equal(mat.transmittance, 0.0))
+        else if (mat.ior==1.0f)
         {
             auto ptr = std::make_shared<Specular>(
                 vec3(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]),
@@ -60,9 +60,10 @@ bool Scene::loadobj(const char *filename, const char *basefile, bool triangulate
         {
             std::cout << "not diffuse mat occured" << std::endl;
             std::cout << mat.name;
+            //because tinyobjload can not read Tr as a vec3, I define it the value of glass
             auto ptr = std::make_shared<Glass>(
                 vec3(mat.diffuse[0], mat.diffuse[1], mat.diffuse[2]),
-                vec3(mat.transmittance[0], mat.transmittance[1], mat.transmittance[2]),
+                vec3(0.8f,1.0f,0.95f),
                 mat.ior);
             std::cout << mat.transmittance[0] << mat.transmittance[1] << mat.transmittance[2];
             mymaterials[matindex] = std::static_pointer_cast<myMaterial>(ptr);

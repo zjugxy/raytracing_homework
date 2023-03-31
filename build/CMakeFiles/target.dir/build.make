@@ -200,6 +200,8 @@ target: CMakeFiles/target.dir/src/scene.cpp.o
 target: CMakeFiles/target.dir/src/tinyxml2.cpp.o
 target: CMakeFiles/target.dir/build.make
 target: /usr/local/lib/libtinyobjloader.a
+target: /usr/lib/gcc/x86_64-linux-gnu/9/libgomp.so
+target: /usr/lib/x86_64-linux-gnu/libpthread.so
 target: CMakeFiles/target.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/gxy/homework/raytracing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable target"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/target.dir/link.txt --verbose=$(VERBOSE)

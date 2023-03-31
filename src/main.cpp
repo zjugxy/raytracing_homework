@@ -6,9 +6,9 @@
 #include <stb_image_write.h>
 
 #include <omp.h>
-const int sample_per_pixels = 100;
+const int sample_per_pixels = 200;
 const float infinity = 99999999.0;
-const float cut_prob = 0.7;
+const float cut_prob = 0.9;
 
 const int recursiondepth = 10;
 
@@ -18,37 +18,13 @@ void debug(std::string str)
     std::cout << "debug " << str << std::endl;
     std::cin >> debug;
 }
-
-// vec3 ray_color(Scene &scene, Ray &ray, int depth)
-// {
-//     hitrecord rec;
-//     if (depth <= 0 || (scene.intersect(ray, 0, infinity, rec) == false))
-//     {
-//         return vec3(0, 0, 0);
-//     }
-//     // get random num
-//     float num = random_float();
-//     if (num > cut_prob)
-//         return vec3{0, 0, 0};
-//     // 本该是light的id失效了 变成了0
-//     int id = rec.materialid;
-//     // hit light
-//     if (scene.is_light[id])
-//     {
-//         return scene.radiance[id];
-//     }
-
-//     vec3 albedo;
-//     Ray newray;
-//     if (scene.mymaterials[id]->scatter(ray, rec, albedo, newray))
-//     {
-//         vec3 wo = float(-1.0) * ray.dir;
-//         vec3 wi = newray.dir;
-//         float elem = 1 / pdf / cut_prob;
-//         //        return fr(p, wi, wo) * shade(o, -wi) * dot(n, wi) / pdf(wi) / prob;
-//         return scene.mymaterials[id]->BRDF(wi,wo,rec) * glm::dot(rec.normal, wi) * ray_color(scene, newray, depth - 1) * elem;
-//     }
-// }
+void testreflect()
+{
+    vec3 in(1, 1, 0);
+    vec3 norm1(0, 1, 0);
+    vec3 key = glm::reflect(in, norm1);
+    vec3 key2 = glm::reflect(in, -1.0f * norm1);
+}
 
 vec3 Shader(Scene &scene, hitrecord rec, Ray &ray_in)
 {
@@ -148,7 +124,10 @@ vec3 newshader(Scene &scene, hitrecord rec, Ray &ray_in)
         else
         {
             float elem = glm::dot(recnorm, glm::normalize(newray.dir)) / pdf / cut_prob;
-            L_indir = newshader(scene, newrec, newray) * albedo * elem;
+            if (elem < 0)
+                L_indir = vec3(0, 0, 0);
+            else
+                L_indir = newshader(scene, newrec, newray) * albedo * elem;
         }
     }
     return L_indir;
@@ -226,7 +205,10 @@ vec3 multisampleshader(Scene &scene, hitrecord rec, Ray &ray_in)
     else
     {
         float elem = glm::dot(recnorm, glm::normalize(newray.dir)) / pdf / cut_prob;
-        L_indir = newshader(scene, newrec, newray) * albedo * elem;
+        if (elem < 0)
+            L_indir = vec3(0, 0, 0);
+        else
+            L_indir = multisampleshader(scene, newrec, newray) * albedo * elem;
     }
 
     return L + L_indir;
@@ -286,7 +268,7 @@ int main()
     const char *basefile = "../example/staircase/"; // used to find mtl file
     const char *xmlfile = "../example/staircase/staircase.xml";
 
-
+    testreflect();
     // load obj first to match the material with xml file
     myscene.loadobj(filename, basefile);
     myscene.loadxml(xmlfile);
@@ -302,15 +284,14 @@ int main()
     int depth = recursiondepth;
     std::vector<unsigned char> image(width * height * channels);
 
-    int debugheight = 767; // 开始调试第128行,适用于1024分辨率
-    int debugx = 113;
+    int debugheight = 313; // 开始调试第128行,适用于1024分辨率
+    int debugx = 551;
     // 原先      for (int y = height-1; y >= 0; --y) {
 
     #pragma omp parallel for
-    for (int y = height - 1; y >= 0; --y)
+    for (int y = height-1; y >= 0; --y)
     {
         std::cout << "line in" << y << std::endl;
-        // 原先      for (int x = 0; x < width; ++x) {
         for (int x = 0; x < width; ++x)
         {
 
@@ -332,7 +313,7 @@ int main()
             image[index + 2] = static_cast<unsigned char>(B);
         }
     }
-    stbi_write_png("../veach.png", width, height, channels, image.data(), width * channels);
+    stbi_write_png("../stairfinal.png", width, height, channels, image.data(), width * channels);
 
     return 0;
 }

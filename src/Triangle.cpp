@@ -41,8 +41,8 @@
     if (t <= t_min || t >= t_max) {
         return false;
     }
-//重合面？
-    if (t+0.001 < rec.t) {
+//重合面？与自交
+    if (t+0.001 < rec.t&&std::abs(t)>0.0001) {
         rec.t = t;
         rec.position = ray.at(t);
         rec.normal = glm::normalize(float((1 - u - v)) * normals[0] + float(u) * normals[1] + float(v) * normals[2]);
